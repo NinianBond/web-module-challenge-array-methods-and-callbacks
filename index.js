@@ -114,11 +114,13 @@ Use the higher order function `getAverageGoals` to do the following:
  
 */
 
-function getAverageGoals(/* code here */) {
-    /* code here */
+function getAverageGoals(callback) {
+    const totalHome = callback.reduce((acc, next) => acc + next["Home Team Goals"], 0);
+    const totalAway = callback.reduce((acc, next) => acc + next["Away Team Goals"], 0);
+    return ((totalHome + totalAway) / getFinals(fifaData).length).toFixed(2);
  }
 
-
+getAverageGoals(getFinals(fifaData));
 
 
 /// 🥅 STRETCH 🥅 ///
