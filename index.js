@@ -9,6 +9,13 @@ Practice accessing data by console.log-ing the following pieces of data note.
 
 //(a) Home Team name for 2014 world cup final
 
+const games2014 = fifaData.filter(game => game.Year === 2014 && game.Stage === "Final");
+console.log(games2014);
+const homeTeam = games2014.map(game => game["Home Team Name"]);
+console.log(homeTeam);
+
+
+
 //(b) Away Team name for 2014 world cup final
 
 //(c) Home Team goals for 2014 world cup final
@@ -26,9 +33,13 @@ Use getFinals to do the following:
 💡 HINT - you should be looking at the stage key inside of the objects
 */
 
-function getFinals(/* code here */) {
-    /* code here */
+function getFinals(array) {
+    const finalTeams = array.filter(object => object.Stage === "Final")
+    return finalTeams;
  }
+
+console.log(getFinals(fifaData));
+
 
 
 
@@ -38,9 +49,12 @@ Use the higher-order function called getYears to do the following:
 2. Receive a callback function as the second parameter that will take getFinals from task 2 as an argument
 3. Return an array called years containing all of the years in the getFinals data set*/
 
-function getYears(/* code here */) {
-    /* code here */
+function getYears(array, cb) {
+    const finalYears = cb(array).map(obj => obj.Year);
+    return finalYears;
 }
+
+console.log(getYears(fifaData, getFinals));
 
 
 
@@ -52,9 +66,17 @@ Use the higher-order function getWinners to do the following:
 💡 HINT: Don't worry about ties for now (Please see the README file for info on ties for a stretch goal.)
 4. Returns the names of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
-    /* code here */
+function getWinners(array, cb) {
+    const winners = [];
+    cb(array).forEach(obj => {if (obj["Home Team Goals"] > obj["Away Team Goals"]) {
+        winners.push(obj["Home Team Name"]);
+    } else {
+        winners.push(obj["Away Team Name"]);
+    }
+});
+return winners;
 }
+console.log(getWinners(fifaData, getFinals));
 
 
 
@@ -69,10 +91,13 @@ Use the higher-order function getWinnersByYear to do the following:
 💡 HINT: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
+function getWinnersByYear(array, getFinals, getYears, getWinners) {
+    const stringArray = [];
+    getYears(array, getFinals).forEach((element, index) => stringArray.push(`In ${element}, ${getWinners(fifaData, getFinals)[index]} won the world cup!`));
+    return stringArray; 
 }
 
+console.log(getWinnersByYear(fifaData, getFinals, getYears, getWinners));
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 6: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
